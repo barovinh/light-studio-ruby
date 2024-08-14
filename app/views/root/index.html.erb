@@ -1,0 +1,79 @@
+<style>.card-img-top {
+  width: 100%; 
+  height: 200px;
+  object-fit: cover;
+}
+</style>
+
+<% if flash.any? %> 
+  <div class="flash-messages p-5 ">
+    <% flash.each do |type, message| %>
+      <div class="flash flash-<%= type %>">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="container p-5">
+  <h2>Điện thoại mới</h2>
+  <hr>
+  <div class="row">
+  <% if @phones.present? %>
+    <% @phones.each_with_index do |phone, index| %>
+      <% if index % 4 == 0 && index != 0 %>
+        </div><div class="row">
+      <% end %>
+      <div class="col-md-3 mb-4">
+        <div class="card w-100 h-100 d-flex flex-column">
+          <% if phone.phone_details.any? %>
+          <% thumbnail_img = phone.phone_details.first.thumbnail_img %>
+          <% image_src = thumbnail_img.present? ? "/assets/#{thumbnail_img}" : "/assets/default_thumbnail.jpg" %>
+          <img src="<%= image_src %>" class="card-img-top  " alt="Thumbnail">
+          <% else %>
+          <img src="/assets/default_thumbnail.jpg" class=" card-img-top "alt="Thumbnail">
+          <% end %>
+            <hr>
+          <div class="card-body d-flex flex-column justify-content-between">
+            <a href="product/details/<%= phone.id %>" class="card-title text-decoration-none text-danger hover:text-primary" style="font-size: 20px;" title="<%= phone.phone_name %>"><%= phone.phone_name %></a>
+            <a href="product/details/<%= phone.id %>" class="btn btn-primary w-75 mt-2">
+            <% if phone.phone_details.any? && phone.phone_details.first.price.present? %>
+            <%= number_with_delimiter(phone.phone_details.first.price, delimiter: ".") %>đ
+            <% else %>
+            Giá chưa có
+            <% end %>
+            </a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+
+   <h2>Máy tính bảng</h2>
+  <hr>
+  <div class="row">
+    <% if @tablets.present? %>
+    <% if @tablets.length > 0 %>
+      <% @tablets.each_with_index do |tablet, index| %>
+        <% if index % 4 == 0 && index != 0 %>
+          </div><div class="row">
+        <% end %>
+        <div class="col-md-3 mb-4">
+          <div class="card" style="width: 100%;">
+            <img src="https://shopdunk.com/images/thumbs/0019932_iphone-15-plus-128gb_550.jpeg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><%= tablet.phone_name %></h5>
+              <p class="card-text">.</p>
+              <a href="/details/<%= tablet.id %>" class="btn btn-primary">1.000.000đ</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <% else %>
+      <h2>Đang nhập hàng </h2>
+        <% end %>
+  </div>
+</div>

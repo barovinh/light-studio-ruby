@@ -1,0 +1,2 @@
+class PhoneO < ApplicationRecord
+end

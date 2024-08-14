@@ -1,0 +1,447 @@
+<style>.product-img {
+  min-height: 480px;
+}</style>
+<div class="row mt-5">
+
+    <div class="container-fluid p-0 m-0">
+        <div class="row p-0 m-0">
+            <div class="col-0 col-sm-0 col-md-1 col-lg-1 col-xl-1">
+            </div>
+            <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 border-bottom">
+                            <h4><%= @phone.phone_name %> </h4>
+                        </div>
+                        <div class="col-12 col-lg-6 mt-3 p-0">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-0 col-lg-1">
+                                    </div>
+                                    <%# @php
+                                        $num = 1;
+                                    @endphp %>
+                                    <% @num = 1 %>
+                                    <div class="col-12 col-lg-10">
+                                        <div id="carousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                                            <div class="carousel-indicators">
+                                                <button type="button" data-bs-target="#carousel" data-bs-slide-to="0"
+                                                    class="active" aria-current="true" aria-label="Slide 0"></button>
+                                                    <% if @images.present? %>
+                                                        <% @images.each do |val| %>
+                                                         <button type="button" data-bs-target="#carousel"
+                                                           data-bs-slide-to="<%= @num %>" class="active "
+                                                           aria-current="true" aria-label="Slide {{ <%= @num+=1 %> }}"></button>
+                                                        <% end %>
+                                                        
+                                                    <% end %>                                      
+                                            </div>
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active text-center">
+                                                    <% if @phone_details %>
+                                                    <img src="/assets/<%= @phone_details.thumbnail_img %>" alt="Thumbnail"class="btn d-block w-100 h-50 product-img info" alt="...">
+                                                <% else %>
+                                                    <img src="/assets/default_thumbnail.jpg" alt="Default Thumbnail" class="btn d-block w-100 h-50 product-img info" alt="...">
+                                                <% end %>
+                                                </div>
+                                                <% @images.each do |val| %>
+                                                    <div class="carousel-item">
+                                                        <img src="/assets/<%= val.file_path %>" class="btn d-block w-100 h-50 product-img info" alt="">
+                                                    </div>
+                                                <% end %>
+                                                
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel"
+                                                data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel"
+                                                data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-0 col-lg-1">
+
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 mt-3">
+                            <h5 class="pb-2 border-bottom">Tình trạng:
+                                
+                                <% if @phone_details.quantity>0 %>
+                                    <span class="text-success fw-bold">Còn hàng</span>
+                                    <% else %>
+                                      <span class="text-danger fw-bold">Hết hàng</span>
+                                <% end %>
+                                
+
+                            </h5>
+                            <h5 class="pb-2 border-bottom">Giá:
+                               <%if @phone_details.discount!=0 %>
+                                    <span
+                                        class="text-danger fw-bold text-decoration-line-through"><%= @phone_details.price %>
+                                        VNĐ</span>
+                                    <span class="text-danger fw-bold">
+                                     <%= @phone_details.price - @phone_details.discount %>
+                                        VNĐ</span>
+                                    <span class="badge bg-warning">GIẢM GIÁ</span>
+                                <% else %>
+                                    <span
+                                        class="text-danger fw-bold"><%= @phone_details.price %>vnd</span>
+                               
+                               <% end %>
+                               
+                            </h5>
+                            <div class="d-grid gap-2 pb-2">                   
+                                <% if @phone_details.quantity > 0 %>
+                                    <button class="btn btn-warning"
+                                        onclick="AddToCart()">THÊM VÀO
+                                        GIỎ</button>
+                                 <% else %>
+                                    <button class="btn btn-warning btn-block">LIÊN HỆ TÔI KHI CÓ HÀNG</button>                                
+                                <% end %>
+                                
+                            </div>
+                            <h5 class="border-bottom pb-2">Thông số kỹ thuật</h5> 
+                            - <table class="table table-striped">
+                                <tr>
+                                    <td>Màn hình</td>
+                                    <td><%= @phone_details.screen %> </td>
+                                </tr>
+                                <tr>
+                                    <td>Màu sắc</td>
+                                    <td><%= @phone_details.primary_phone_color.color_name %></td>
+                                </tr>
+                                <tr>
+                                    <td>Bộ nhớ RAM</td>
+                                    <td><%= @phone_details.ram %> </td>
+                                </tr>
+                                <tr>
+                                    <td>Bộ nhớ trong</td>
+                                    <td><%= @phone_details.rom %> </td>
+                                </tr>
+                                <tr>
+                                    <td>CPU</td>
+                                    <td><%= @phone_details.cpu %> </td>
+                                </tr>
+                                <tr>
+                                    <td>Camera trước</td>
+                                    <td><%= @phone_details.front_cam %> </td>
+                                </tr>
+                                <tr>
+                                    <td>Camera sau</td>
+                                    <td><%= @phone_details.rear_cam %> </td>
+                                </tr>
+                                <tr>
+                                    <td>Bluetooth</td>
+                                    <td><%= @phone_details.bluetooth_ver %> </td>
+                                </tr>
+                                <tr>
+                                    <td>WiFi</td>
+                                    <td><%= @phone_details.wifi_ver %> </td>
+                                </tr>
+                                <tr>
+                                    <td>NFC</td>
+                                    <td><%= @phone_details.nfc %> </td>
+                                </tr>
+                            </table> 
+                        </div>
+                        <div class="col-12 border-top mt-3 p-0">
+                            <h5 class="text-left mt-3">Video giới thiệu sản phẩm</h5>
+                            <div class="w-100 text-center mt-3">
+                                <iframe width="650" height="430" src="<%= @phone.youtube_url %>" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                        <div class="col-12 border-top mt-3 p-0">
+                            <h5 class="text-left mt-3">Thông tin sản phẩm</h5>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div id="description" style="height: 400px; overflow: hidden">
+                                        <%# @php
+                                            echo $current_details->parentPhone->description;
+                                        @endphp %>
+                                        <%= @phone.description.html_safe %>
+                                    </div>
+                                    <div class="col-12 text-center mt-3">
+                                        <button class="btn btn-outline-dark" data-bs-target="#description-modal"
+                                            data-bs-toggle="modal">Xem thêm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 border-top mt-3 p-0">
+                            <h5 class="mt-3">Đánh giá sản phẩm</h5>
+                        </div>
+                        <div class="col-12 border-top mt-3 p-0">
+                            <h5 class="mt-3">Xem thêm sản phẩm khác</h5>
+                        </div>
+                        <%# <div class="col-lg-12 col-12">
+                            @if ($other_phone_details->count() > 0)
+                                <div class="container-fluid">
+                                    <div class="row text-center">
+                                        <div id="carouselOtherProduct" class="carousel slide">
+                                            <div class="carousel-inner">
+                                                <div id="carouselExampleControls" class="carousel">
+                                                    <div class="carousel-inner op-inner">
+                                                        @foreach ($other_phone_details as $row)
+                                                            <div class="carousel-item op-item active">
+                                                                <div class="card zoom-on position-relative"
+                                                                    style="width: 300px; height: 400px;">
+                                                                    <div class="position-absolute top-0 start-0 ms-5 mt-3">
+                                                                        @if ($row->discount != 0)
+                                                                            <span
+                                                                                class="translate-middle badge bg-warning">
+                                                                                GIẢM GIÁ
+                                                                            </span>
+                                                                        @endif
+                                                                        @if ($row->quantity <= 0)
+                                                                            <span class="translate-middle badge bg-danger">
+                                                                                HẾT HÀNG
+                                                                            </span>
+                                                                        @endif
+                                                                    </div>
+                                                                    <img class="card-img-top card-img-product w-100"
+                                                                        style="height: 300px"
+                                                                        src="{{ asset('/image/' . $row->thumbnail_img) }}">
+                                                                    <div class="card-body text-center">
+                                                                        <a class="text-decoration-none"
+                                                                            href="{{ URL::to('/phone/' . $row->parentPhone->phone_id . '/detail/' . $row->phone_details_id) . '/specs/0' }}">
+                                                                            <h6 class="card-title fw-bold truncate-text">
+                                                                                {{ ($row->parentPhone->phone_name ?? 'null') . ' ' . ($row->parentSpecific->specific_name ?? 'null') . ' ' . ($row->parentColor->color_name ?? 'null') }}
+                                                                            </h6>
+                                                                        </a>
+                                                                        @if ($row->discount != 0)
+                                                                            <h6
+                                                                                class="text-danger fw-bold text-decoration-line-through">
+                                                                                {{ number_format($row->price, 0, ',', '.') }}
+                                                                                VNĐ</h6>
+                                                                            <h6 class="text-danger fw-bold">
+                                                                                {{ number_format($row->price - $row->discount, 0, ',', '.') }}
+                                                                                VNĐ</h6>
+                                                                        @else
+                                                                            <h6 class="text-danger fw-bold">
+                                                                                {{ number_format($row->price, 0, ',', '.') }}
+                                                                                VNĐ</h6>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <button class="carousel-control-prev op-next" type="button"
+                                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next op-prev" type="button"
+                                                        data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div> %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-0 col-sm-0 col-md-1 col-lg-1 col-xl-1">
+
+        </div>
+    </div>
+    </div>
+    <script>
+        
+   </script>
+    <div class="modal fade hide" id="description-modal" tabindex="-1" aria-labelledby="description-modal_label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông tin sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="more_description">
+                        <%# @php
+                            echo $current_details->parentPhone->description;
+                        @endphp %>
+                        <%= @phone.description.html_safe %>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade hide" id="ratingModal" tabindex="-1" aria-labelledby="ratingModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đánh giá</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <form action="{{ route('userRatingProduct') }}" method="post">
+                    @csrf
+                    <div class="modal-body card">
+                        <div class="text-center">
+                            <img class="card-img-top w-50" src="{{ asset('/image/' . $current_details->thumbnail_img) }}"
+                                alt="Card image cap">
+                        </div>
+                        <div class="text-center ">
+                            <i class="fa-regular fa-star text-warning fa-solid rating" data-index="1"></i>
+                            <i class="fa-regular fa-star text-warning rating" data-index="2"></i>
+                            <i class="fa-regular fa-star text-warning rating" data-index="3"></i>
+                            <i class="fa-regular fa-star text-warning rating" data-index="4"></i>
+                            <i class="fa-regular fa-star text-warning rating" data-index="5"></i>
+                        </div>
+                        <div class="text-center">
+                            <input type="hidden" name="number_rating" class="number_rating">
+                            <input type="hidden" name="phone_details_id"
+                                value="{{ $current_details->phone_details_id }}">
+
+
+                            <%# <h4>{{ $current_details->parentPhone->phone_name . ' ' . $current_details->parentSpecific->specific_name . ' ' . $current_details->parentColor->color_name }} %>
+                            </h4>
+
+                        </div>
+                        <div class="card-body">
+                            <textarea placeholder="Mời bạn bình luận sản phẩm" name="content" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade hide" id="infoProductModal" tabindex="-1" aria-labelledby="infoProductModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered w-100">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Hình ảnh sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body card">
+                    <div class="text-center">
+                        <%# <h4>{{ $current_details->parentPhone->phone_name . ' ' . $current_details->parentSpecific->specific_name . ' ' . $current_details->parentColor->color_name }} %>
+                            <%= @phone.phone_name %>
+                        </h4>
+                    </div>
+                    <%# <div class="card-body">
+                        <div class="row">
+                            <div class="col-0 col-lg-1">
+                            </div>
+                            @php
+                                $num = 1;
+                            @endphp
+                            <div class="col-12 col-lg-10">
+                                <div id="carousel2" class="carousel carousel-dark slide" data-bs-ride="carousel2">
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carousel2" data-bs-slide-to="0"
+                                            class="active" aria-current="true" aria-label="Slide 0"></button>
+                                        @foreach ($images as $row)
+                                            <button type="button" data-bs-target="#carousel2"
+                                                data-bs-slide-to="{{ $num }}" class="active "
+                                                aria-current="true" aria-label="Slide {{ $num++ }}"></button>
+                                        @endforeach
+                                    </div>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active text-center">
+                                            <img src="{{ asset('/image/' . $current_details->thumbnail_img) }}"
+                                                class="btn d-block w-100 h-100 product-img " alt="...">
+                                        </div>
+                                        @foreach ($images as $row)
+                                            <div class="carousel-item">
+                                                <img src="{{ asset('/image/' . $row->file_path) }}"
+                                                    class="btn d-block w-100 h-100 product-img " alt="...">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel2"
+                                        data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel2"
+                                        data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-0 col-lg-1">
+
+                            </div>
+                        </div>
+                    </div> %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+</div>
+    <script>
+        let max = <?php echo $reviews->count(); ?>;
+        let x = 10;
+        $(document).ready(function() {
+            if (10 >= max - 1) {
+                $("#btnLoad").addClass("hiddenComp");
+            }
+            for (let i = 1; i <= 10; ++i) {
+                $("#" + i.toString()).removeClass("hiddenComp");
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var carouselWidth = $(".op-inner")[0].scrollWidth;
+            var cardWidth = $(".op-item").width();
+            var scrollPosition = 0;
+            $(".op-prev").on("click", function() {
+                if (scrollPosition < (carouselWidth - cardWidth * 4)) { //check if you can go any further
+                    scrollPosition += cardWidth; //update scroll position
+                    $(".op-inner").animate({
+                        scrollLeft: scrollPosition
+                    }, 450); //scroll left
+                }
+            });
+            $(".op-next").on("click", function() {
+                if (scrollPosition > 0) {
+                    scrollPosition -= cardWidth;
+                    $(".op-inner").animate({
+                            scrollLeft: scrollPosition
+                        },
+                        450
+                    );
+                }
+            });
+            var multipleCardCarousel = document.querySelector(
+                "#carouselExampleControls"
+            );
+            var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+                interval: false,
+                wrap: false,
+            });
+        })
+    </script>

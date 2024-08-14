@@ -1,0 +1,2 @@
+class PhoneSpecific < ApplicationRecord
+end
